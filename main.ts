@@ -12,6 +12,10 @@ import {
 const { log } = console;
 const [, , command, ...args] = process.argv;
 
+/**
+ * Checks if the provided ID is valid.
+ * @param id
+ */
 const checkId = (id: string | undefined): void => {
   if (!id) {
     log(red.bold("❌ Please provide a task ID"));

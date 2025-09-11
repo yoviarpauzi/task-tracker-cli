@@ -78,6 +78,11 @@ const addTask = (description: string): void => {
   }
 };
 
+/**
+ * Updates an existing task's description.
+ * @param id
+ * @param description
+ */
 const updateTask = (id: string, description: string): void => {
   try {
     const tasks: Task[] = loadDatabase();
@@ -95,6 +100,10 @@ const updateTask = (id: string, description: string): void => {
   }
 };
 
+/**
+ * Deletes a task from the database.
+ * @param id
+ */
 const deleteTask = (id: string): void => {
   try {
     const tasks: Task[] = loadDatabase();
@@ -111,6 +120,10 @@ const deleteTask = (id: string): void => {
   }
 };
 
+/**
+ * Marks a task as in-progress.
+ * @param id
+ */
 const markTaskAsInProgress = (id: string): void => {
   try {
     const tasks: Task[] = loadDatabase();
@@ -128,6 +141,10 @@ const markTaskAsInProgress = (id: string): void => {
   }
 };
 
+/**
+ * Marks a task as done.
+ * @param id
+ */
 const markTaskAsDone = (id: string): void => {
   try {
     const tasks: Task[] = loadDatabase();
@@ -145,6 +162,11 @@ const markTaskAsDone = (id: string): void => {
   }
 };
 
+/**
+ * Prints tasks in a formatted table.
+ * @param tasks
+ * @param status
+ */
 const printTask = (tasks: Task[], status: string): void => {
   const data = tasks.map((task) => {
     let statusColored: string;
@@ -179,6 +201,11 @@ const printTask = (tasks: Task[], status: string): void => {
   log(table(tableData));
 };
 
+/**
+ * Lists tasks based on their status.
+ * @param status
+ * @returns
+ */
 const listTasks = (status: TaskStatus | string): void => {
   try {
     const tasks: Task[] = loadDatabase();
