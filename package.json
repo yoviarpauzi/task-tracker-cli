@@ -1,0 +1,27 @@
+{
+  "name": "task-tracker-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "task-cli": "node ./dist/main.js"
+  },
+  "bin": {
+    "task-cli": "./dist/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "chalk": "^5.6.2",
+    "execa": "^9.6.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "table": "^6.9.0",
+    "uuid": "^13.0.0"
+  }
+}
