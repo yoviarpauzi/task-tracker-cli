@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { green, purple, red } from "./utils/chalk.js";
+import { green, purple, red } from "./src/utils/chalk.js";
 import {
   addTask,
   updateTask,
@@ -8,7 +8,7 @@ import {
   markTaskAsInProgress,
   listTasks,
   TaskStatus,
-} from "./utils/taskManager.js";
+} from "./src/utils/taskManager.js";
 const { log } = console;
 const [, , command, ...args] = process.argv;
 

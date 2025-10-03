@@ -1,59 +1,10 @@
-import fs from "node:fs";
 import { v4 as uuidv4 } from "uuid";
 import { green, red, yellow, purple } from "./chalk.js";
 import { table } from "table";
+import { type Task, TaskStatus } from "../types/task.types.js";
+import { loadDatabase, saveTask } from "./database.js";
 
-enum TaskStatus {
-  TODO = "todo",
-  IN_PROGRESS = "in-progress",
-  DONE = "done",
-}
-
-type Task = {
-  id: string;
-  description: string;
-  status: TaskStatus;
-  created_at: number;
-  updated_at: number | null;
-};
-
-const DATABASE_DIR = "database";
-const DATABASE_PATH = `${DATABASE_DIR}/task.json`;
 const { log } = console;
-
-/**
- * Loads tasks from the JSON database file. If the file or directory doesn't exist, it creates them.
- * @returns An array of tasks.
- */
-const loadDatabase = (): Task[] => {
-  try {
-    if (!fs.existsSync(DATABASE_DIR)) {
-      fs.mkdirSync(DATABASE_DIR);
-    }
-
-    if (!fs.existsSync(DATABASE_PATH)) {
-      fs.writeFileSync(DATABASE_PATH, JSON.stringify([]));
-    }
-
-    const data = fs.readFileSync(DATABASE_PATH, "utf-8");
-    return JSON.parse(data) as Task[];
-  } catch (error) {
-    log(red.bold("❌ Failed to load tasks"));
-    return [];
-  }
-};
-
-/**
- * Saves tasks to the JSON database file.
- * @param tasks - array of tasks to be saved
- */
-const saveTask = (tasks: Task[]): void => {
-  try {
-    fs.writeFileSync(DATABASE_PATH, JSON.stringify(tasks, null, 2));
-  } catch (error) {
-    log(red.bold("❌ Failed to save tasks"));
-  }
-};
 
 /**
  * Adds a new task to the database.
@@ -74,7 +25,8 @@ const addTask = (description: string): void => {
     saveTask(tasks);
     log(green.bold(`✅ Task added (ID: ${newTask.id})`));
   } catch (error) {
-    log(red.bold("❌ Failed to add task"));
+    log(red.bold(`❌ Failed to add task`));
+    throw error;
   }
 };
 
@@ -97,6 +49,7 @@ const updateTask = (id: string, description: string): void => {
     log(green.bold(`✅ Task updated (ID: ${id})`));
   } catch (error) {
     log(red.bold("❌ Failed to update task"));
+    throw error;
   }
 };
 
@@ -117,6 +70,7 @@ const deleteTask = (id: string): void => {
     log(green.bold(`✅ Task deleted (ID: ${id})`));
   } catch (error) {
     log(red.bold("❌ Failed to delete task"));
+    throw error;
   }
 };
 
@@ -138,6 +92,7 @@ const markTaskAsInProgress = (id: string): void => {
     log(green.bold(`✅ Task marked as in-progress (ID: ${id})`));
   } catch (error) {
     log(red.bold("❌ Failed to mark task as in-progress"));
+    throw error;
   }
 };
 
@@ -159,6 +114,7 @@ const markTaskAsDone = (id: string): void => {
     log(green.bold(`✅ Task marked as done (ID: ${id})`));
   } catch (error) {
     log(red.bold("❌ Failed to mark task as done"));
+    throw error;
   }
 };
 
@@ -193,7 +149,7 @@ const printTask = (tasks: Task[], status: string): void => {
   });
 
   const tableData = [
-    ["ID", "Description", "Status", "Created At", "Updated At"], // 👈 header
+    ["ID", "Description", "Status", "Created At", "Updated At"],
     ...data,
   ];
 
@@ -221,6 +177,7 @@ const listTasks = (status: TaskStatus | string): void => {
     printTask(filteredTasks, status);
   } catch (error) {
     log(red.bold("❌ Failed to list tasks"));
+    throw error;
   }
 };
 
